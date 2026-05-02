@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ielts.helper.mapper.CourseMapper">
+
+    <!-- 获取可预约课程列表 -->
+    <select id="selectAvailableCourses" resultType="com.ielts.helper.entity.response.CourseResponse">
+        SELECT
+            c.course_id as courseId,
+            c.title,
+            c.type as typeCode,
+            t.name as teacherName,
+            DATE_FORMAT(c.start_time, '%Y-%m-%dT%H:%i:%s') as startTime,
+            DATE_FORMAT(c.end_time, '%Y-%m-%dT%H:%i:%s') as endTime,
+            c.price as priceCents,
+            c.description
+        FROM
+            courses c
+        LEFT JOIN
+            teachers t ON c.teacher_id = t.teacher_id
+        WHERE
+            c.is_open = true
+            AND c.start_time > NOW()
+            AND c.deleted = 0
+        ORDER BY
+            c.start_time ASC
+    </select>
+
+</mapper>

@@ -1,0 +1,52 @@
+server:
+  port: 8080
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ielts_helper?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 1234
+  ai:
+    dashscope:
+      api-key: ${AI_DASHSCOPE_API_KEY}
+      embedding:
+        options:
+          model: text-embedding-v1
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 5000ms
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+jwt:
+  secret: ielts-helper-jwt-secret-key-2026-very-long-secret-key
+  expiration: 86400000
+
+logging:
+  level:
+    com.ielts.helper: debug
+
+aliyun:
+  oss:
+    endpoint: oss-cn-beijing.aliyuncs.com  # 替换为你 Bucket 所在地域的 endpoint
+    accessKeyId: ${OSS_ACCESS_KEY_ID}
+    accessKeySecret: ${OSS_ACCESS_KEY_SECRET}
+    bucketName: neolo
